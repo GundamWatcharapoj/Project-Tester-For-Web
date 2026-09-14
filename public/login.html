@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>เข้าสู่ระบบ - คลังวัสดุก่อสร้าง</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --font-main: 'TH Sarabun PSK', 'Sarabun PSK', 'Sarabun', sans-serif;
+            --black-primary: #111827;
+            --black-secondary: #1f2937;
+            --grey-border: #d1d5db;
+            /* ปรับเฉดขอบให้เข้มขึ้นเล็กน้อยเพื่อความชัดเจน */
+            --ink: #0f172a;
+            --ink-soft: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--black-primary) 0%, var(--black-secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: #ffffff;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 380px;
+            padding: 36px 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .mark {
+            width: 52px;
+            height: 52px;
+            background: var(--black-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--ink);
+            margin: 0 0 4px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--ink-soft);
+            font-size: 15px;
+            margin: 0 0 28px;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 15px;
+            color: var(--ink-soft);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        /* [แก้ไข] ปรับเพิ่มความหนากรอบจาก 1px เป็น 2px */
+        .field input {
+            width: 100%;
+            font-family: var(--font-main);
+            padding: 11px 14px;
+            border: 2px solid var(--grey-border);
+            /* เพิ่มความหนากรอบ */
+            border-radius: 8px;
+            font-size: 16px;
+            color: var(--ink);
+            transition: border-color 0.2s;
+        }
+
+        .field input:focus {
+            outline: none;
+            border-color: var(--black-primary);
+            box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.06);
+        }
+
+        /* [เพิ่มใหม่] CSS จัดตำแหน่งปุ่มรหัสผ่าน */
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 44px;
+            /* เว้นระยะไม่ให้ข้อความทับไอคอน */
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            width: auto;
+            cursor: pointer;
+            color: var(--ink-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password:hover {
+            background: none;
+            color: var(--black-primary);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: var(--black-primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        button[type="submit"]:hover {
+            background: var(--black-secondary);
+        }
+
+        .error-msg {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #e11d48;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14.5px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-box">
+        <div class="mark">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                </path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+        </div>
+        <h1>
+            <h1>คลังวัสดุก่อสร้าง</h1>
+        </h1>
+        <p class="subtitle">คลังวัสดุก่อสร้าง</p>
+
+        <div class="error-msg" id="errorMsg"></div>
+
+        <form id="loginForm">
+            <div class="field">
+                <label>ชื่อผู้ใช้</label>
+                <input type="text" id="username" required autofocus>
+            </div>
+
+            <!-- [แก้ไข] ปรับโครงสร้าง HTML สำหรับช่องรหัสผ่าน -->
+            <div class="field">
+                <label>รหัสผ่าน</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" required>
+                    <button type="button" class="toggle-password" id="togglePasswordBtn" title="แสดง/ซ่อนรหัสผ่าน">
+                        <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit">เข้าสู่ระบบ</button>
+        </form>
+    </div>
+
+    <script>
+        // [เพิ่มใหม่] สคริปต์สลับการแสดง/ซ่อนรหัสผ่าน
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        togglePasswordBtn.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+
+            // สลับ SVG ระหว่างเปิดตาและปิดตา
+            if (isPassword) {
+                // ไอคอนปิดตา (Hide Password)
+                eyeIcon.innerHTML = `
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                `;
+            } else {
+                // ไอคอนเปิดตา (Show Password)
+                eyeIcon.innerHTML = `
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                `;
+            }
+        });
+
+        // สคริปต์ Submit เดิม
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault()
+            const username = document.getElementById('username').value
+            const password = document.getElementById('password').value
+            const errorMsg = document.getElementById('errorMsg')
+
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ username, password })
+            })
+            const data = await res.json()
+
+            if (data.success) {
+                window.location.href = '/'
+            } else {
+                errorMsg.textContent = data.message || 'เข้าสู่ระบบไม่สำเร็จ'
+                errorMsg.classList.add('show')
+            }
+        })
+    </script>
+</body>
+
+</html>
