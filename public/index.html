@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ระบบจัดการสินค้าก่อสร้างง</title>
+    <title>ระบบจัดการสินค้าก่อสร้าง</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -33,19 +33,35 @@
             color: var(--ink);
             margin: 0;
             min-height: 100vh;
+            display: flex;
             -webkit-font-smoothing: antialiased;
         }
 
-        .topbar {
-            background: linear-gradient(135deg, var(--black-primary) 0%, var(--black-secondary) 100%);
-            padding: 18px 32px;
+        /* Sidebar ฝั่งซ้าย */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, var(--black-primary) 0%, var(--black-secondary) 100%);
+            padding: 24px 16px;
             display: flex;
-            align-items: center;
-            gap: 14px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            flex-shrink: 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
         }
 
-        .topbar .mark {
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-brand .mark {
             width: 40px;
             height: 40px;
             background: rgba(255, 255, 255, 0.08);
@@ -57,26 +73,90 @@
             flex-shrink: 0;
         }
 
-        .topbar h1 {
+        .sidebar-brand h1 {
             color: #ffffff;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 600;
             margin: 0;
-            line-height: 1.1;
+            line-height: 1.2;
         }
 
-        .topbar p {
+        .sidebar-brand p {
             color: var(--grey-light);
             margin: 2px 0 0;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 300;
-            line-height: 1;
         }
 
-        .wrap {
-            max-width: 980px;
-            margin: 0 auto;
-            padding: 28px 24px 60px;
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            color: var(--grey-light);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .sidebar-footer {
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-logout {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.15s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+
+        /* [ปรับปรุง] พื้นที่เนื้อหาหลัก - ขยายกว้างเต็มหน้าจอ */
+        .main-content {
+            flex: 1;
+            padding: 28px 36px 60px;
+            width: 100%;
+            max-width: 100%;
         }
 
         .panel {
@@ -86,10 +166,11 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
             margin-bottom: 22px;
             overflow: hidden;
+            width: 100%;
         }
 
         .panel-head {
-            padding: 14px 22px;
+            padding: 16px 24px;
             border-bottom: 1px solid var(--grey-border);
             display: flex;
             align-items: center;
@@ -111,17 +192,18 @@
             color: var(--black-primary);
         }
 
+        /* [ปรับปรุง] ปรับกริดฟอร์มให้กระจายตามความกว้างหน้าจอ */
         form#productForm {
-            padding: 20px 22px 22px;
+            padding: 22px 24px;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
         }
 
         .field {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
         }
 
         .field label {
@@ -133,7 +215,7 @@
 
         .field input {
             font-family: var(--font-main);
-            padding: 8px 12px;
+            padding: 9px 14px;
             border: 1px solid var(--grey-border);
             border-radius: 7px;
             font-size: 16px;
@@ -149,9 +231,9 @@
         }
 
         #productForm button {
-            grid-column: span 4;
-            margin-top: 6px;
-            padding: 10px;
+            grid-column: 1 / -1;
+            margin-top: 8px;
+            padding: 12px;
             background: var(--black-primary);
             color: #ffffff;
             border: none;
@@ -172,9 +254,9 @@
         }
 
         .search-row {
-            padding: 14px 22px;
+            padding: 16px 24px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             background: #ffffff;
             border-bottom: 1px solid var(--grey-border);
         }
@@ -182,7 +264,7 @@
         .search-row input {
             flex: 1;
             font-family: var(--font-main);
-            padding: 8px 14px;
+            padding: 9px 16px;
             border: 1px solid var(--grey-border);
             border-radius: 7px;
             font-size: 16px;
@@ -198,7 +280,7 @@
 
         .search-row button {
             font-family: var(--font-main);
-            padding: 0 18px;
+            padding: 0 22px;
             border: none;
             border-radius: 7px;
             font-size: 16px;
@@ -228,6 +310,7 @@
             color: var(--ink);
         }
 
+        /* [ปรับปรุง] ตารางขยายเต็มพื้นที่ */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -239,12 +322,12 @@
             font-weight: 600;
             font-size: 15px;
             text-align: left;
-            padding: 10px 16px;
+            padding: 12px 20px;
             border-bottom: 1px solid var(--grey-border);
         }
 
         tbody td {
-            padding: 10px 16px;
+            padding: 12px 20px;
             font-size: 16px;
             border-bottom: 1px solid var(--grey-border);
         }
@@ -262,7 +345,7 @@
             background: #f1f5f9;
             color: var(--black-primary);
             border: 1px solid #e2e8f0;
-            padding: 1px 8px;
+            padding: 2px 10px;
             border-radius: 5px;
             font-size: 14px;
             font-weight: 500;
@@ -286,7 +369,7 @@
             background: transparent;
             color: var(--grey-dark);
             border: 1px solid var(--grey-border);
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 6px;
             font-family: var(--font-main);
             font-size: 15px;
@@ -304,7 +387,7 @@
             background: transparent;
             color: #e11d48;
             border: 1px solid #fecdd3;
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 6px;
             font-family: var(--font-main);
             font-size: 15px;
@@ -325,6 +408,7 @@
             font-size: 16px;
         }
 
+        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -344,7 +428,7 @@
             background: var(--paper);
             border-radius: 12px;
             width: 100%;
-            max-width: 560px;
+            max-width: 600px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
             overflow: hidden;
         }
@@ -430,13 +514,25 @@
             background: var(--bg-body);
         }
 
-        @media (max-width: 640px) {
-            form#productForm {
-                grid-template-columns: 1fr 1fr;
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
             }
 
-            #productForm button {
-                grid-column: span 2;
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 16px;
+            }
+
+            .sidebar-menu {
+                flex-direction: row;
+            }
+
+            .main-content {
+                padding: 16px;
             }
 
             table,
@@ -455,7 +551,7 @@
             tbody tr {
                 border: 1px solid var(--grey-border);
                 border-radius: 8px;
-                margin: 12px;
+                margin: 12px 0;
                 padding: 8px 4px;
             }
 
@@ -479,57 +575,66 @@
                 grid-column: span 1;
             }
         }
-
-        .topbar {
-            justify-content: space-between;
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .btn-logout {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-family: var(--font-main);
-            font-size: 15px;
-            cursor: pointer;
-        }
-
-        .btn-logout:hover {
-            background: rgba(255, 255, 255, 0.18);
-        }
     </style>
 </head>
 
 <body>
-    <div class="topbar">
-        <div class="topbar-left">
-            <div class="mark">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path
-                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                    </path>
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>
+    <!-- Sidebar ฝั่งซ้ายมือ -->
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-brand">
+                <div class="mark">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <div>
+                    <h1>TAFU WATSADU</h1>
+                    <p>คลังวัสดุก่อสร้าง</p>
+                </div>
             </div>
-            <div>
-                <h1>คลังวัสดุก่อสร้าง / Construction Materials</h1>
-                <p>ระบบจัดการสินค้าและสต๊อก</p>
-            </div>
-        </div>
-        <button class="btn-logout" onclick="logout()">ออกจากระบบ</button>
-    </div>
-    </div>
 
-    <div class="wrap">
+            <nav class="sidebar-menu">
+                <a href="/dashboard" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="9"></rect>
+                        <rect x="14" y="3" width="7" height="5"></rect>
+                        <rect x="14" y="12" width="7" height="9"></rect>
+                        <rect x="3" y="16" width="7" height="5"></rect>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="/" class="nav-item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                    จัดการสินค้า
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                ออกจากระบบ
+            </button>
+        </div>
+    </aside>
+
+    <!-- พื้นที่เนื้อหาหลัก (Full Width) -->
+    <main class="main-content">
         <div class="panel">
             <div class="panel-head">
                 <span class="dot"></span>
@@ -564,9 +669,6 @@
                     <label>จำนวน</label>
                     <input type="number" id="quantity" required placeholder="0">
                 </div>
-                <div class="field" style="justify-content:flex-end;">
-                    <label>&nbsp;</label>
-                </div>
                 <button type="submit">+ เพิ่มสินค้าลงคลัง</button>
             </form>
         </div>
@@ -593,8 +695,9 @@
                 <tbody id="productList"></tbody>
             </table>
         </div>
-    </div>
+    </main>
 
+    <!-- Modal สำหรับแก้ไขสินค้า -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-box">
             <div class="modal-head">
@@ -685,6 +788,7 @@
             allProducts = data
             renderProducts(data)
         }
+
         async function checkAuth() {
             const res = await fetch('/api/me', { credentials: 'include' })
             const data = await res.json()
