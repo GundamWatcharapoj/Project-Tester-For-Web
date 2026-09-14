@@ -123,12 +123,20 @@ app.delete('/api/products/:id', requireLogin, (req, res) => {
   })
 })
 
+<<<<<<< HEAD
 // หน้าเกี่ยวกับเรา ต้องล็อกอินก่อนถึงจะเข้าได้
+=======
+//about
+>>>>>>> 7056ad3 (about me pass)
 app.get('/about', (req, res) => {
   if (!req.session.userId) return res.redirect('/login')
   res.sendFile(path.join(__dirname, '../public/about.html'))
 })
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7056ad3 (about me pass)
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000')
 })
