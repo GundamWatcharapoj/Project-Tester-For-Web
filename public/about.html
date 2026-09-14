@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกี่ยวกับเรา - คลังวัสดุก่อสร้าง</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --font-main: 'TH Sarabun PSK', 'Sarabun PSK', 'Sarabun', sans-serif;
+            --black-primary: #111827;
+            --black-secondary: #1f2937;
+            --grey-dark: #374151;
+            --grey-medium: #6b7280;
+            --grey-light: #9ca3af;
+            --grey-border: #e5e7eb;
+            --bg-body: #f8fafc;
+            --paper: #ffffff;
+            --ink: #0f172a;
+            --ink-soft: #64748b;
+            --hover-bg: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-body);
+            color: var(--ink);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container สำหรับ Navbar */
+        #navbar-container {
+            display: flex;
+            flex-shrink: 0;
+        }
+
+        /* Sidebar ฝั่งซ้าย */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, var(--black-primary) 0%, var(--black-secondary) 100%);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            flex-shrink: 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-brand .mark {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-brand h1 {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .sidebar-brand p {
+            color: var(--grey-light);
+            margin: 2px 0 0;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            color: var(--grey-light);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .sidebar-footer {
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-logout {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.15s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+
+        /* พื้นที่เนื้อหาหลัก */
+        .main-content {
+            flex: 1;
+            padding: 28px 36px 60px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--black-primary);
+            margin: 0 0 6px 0;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--ink-soft);
+            margin: 0;
+        }
+
+        .panel {
+            background: var(--paper);
+            border-radius: 12px;
+            border: 1px solid var(--grey-border);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            margin-bottom: 22px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .panel-head {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--grey-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+        }
+
+        .panel-head .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--black-primary);
+        }
+
+        .panel-head h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--black-primary);
+        }
+
+        .panel-body {
+            padding: 24px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--grey-dark);
+        }
+
+        /* Grid จุดเด่น */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .feature-card {
+            background: var(--bg-body);
+            border: 1px solid var(--grey-border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .feature-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 17px;
+            color: var(--black-primary);
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            margin: 0;
+            font-size: 15px;
+            color: var(--ink-soft);
+            line-height: 1.5;
+        }
+
+        /* Contact Details Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .info-item label {
+            font-size: 14px;
+            color: var(--ink-soft);
+            font-weight: 500;
+        }
+
+        .info-item span {
+            font-size: 16px;
+            color: var(--black-primary);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            #navbar-container {
+                width: 100%;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 16px;
+            }
+
+            .sidebar-menu {
+                flex-direction: row;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- โหลด Navbar มาใส่ที่นี่ -->
+    <div id="navbar-container"></div>
+
+    <!-- พื้นที่เนื้อหาหลัก -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>เกี่ยวกับเรา</h1>
+            <p>ศูนย์รวมและบริหารจัดการวัสดุก่อสร้างมาตรฐานครบวงจร</p>
+        </div>
+
+        <!-- วิสัยทัศน์และประวัติองค์กร -->
+        <div class="panel">
+            <div class="panel-head">
+                <span class="dot"></span>
+                <h2>ประวัติและวิสัยทัศน์</h2>
+            </div>
+            <div class="panel-body">
+                <p style="margin-top: 0;">
+                    <strong>คลังวัสดุก่อสร้าง (Construction Materials Warehouse)</strong>
+                    ก่อตั้งขึ้นโดยมีเป้าหมายในการเป็นศูนย์กลางการจัดเก็บและการบริหารจัดการโครงสร้างวัสดุก่อสร้างที่มีประสิทธิภาพสูงสุด
+                    เรามุ่งเน้นระบบการจัดการคลังสินค้าที่แม่นยำ ปลอดภัย และรวดเร็ว เพื่อรองรับความต้องการของผู้รับเหมา
+                    ร้านค้ารายย่อย และโครงการก่อสร้างทุกขนาด
+                </p>
+                <p style="margin-bottom: 0;">
+                    เรามุ่งมั่นที่จะพัฒนาการบริหารจัดการวัสดุก่อสร้างด้วยเทคโนโลยีสมัยใหม่ เพื่อให้การตรวจสอบสต็อก
+                    การควบคุมราคาทุน-ราคาขาย และการบริหารคลังสินค้าเป็นไปอย่างเป็นระบบและโปร่งใสที่สุด
+                </p>
+            </div>
+        </div>
+
+        <!-- จุดเด่นของเรา -->
+        <div class="panel">
+            <div class="panel-head">
+                <span class="dot"></span>
+                <h2>จุดเด่นและการให้บริการ</h2>
+            </div>
+            <div class="panel-body">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>มาตรฐานสินค้าคุณภาพ</h3>
+                        <p>คัดสรรเฉพาะวัสดุก่อสร้างที่ได้มาตรฐาน มอก. และผ่านการตรวจสอบคุณภาพก่อนเข้าคลังสินค้า</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>คลังสินค้าขนาดใหญ่</h3>
+                        <p>มีระบบจัดเก็บสินค้าที่ครอบคลุมทุกหมวดหมู่ ทั้งโครงสร้าง งานระบบ และงานตกแต่ง</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>ระบบสต็อกแม่นยำ</h3>
+                        <p>บริหารคลังด้วยระบบดิจิทัล ตรวจสอบจำนวนและหมวดหมู่สินค้าได้แบบ Real-time</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>การจัดส่งรวดเร็ว</h3>
+                        <p>บริการจัดส่งวัสดุก่อสร้างถึงหน้างานอย่างตรงเวลาเพื่อไม่ให้งานก่อสร้างสะดุด</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ข้อมูลการติดต่อ -->
+        <div class="panel">
+            <div class="panel-head">
+                <span class="dot"></span>
+                <h2>ข้อมูลการติดต่อและสถานที่ตั้ง</h2>
+            </div>
+            <div class="panel-body">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>ที่อยู่คลังสินค้าหลัก</label>
+                        <span>123/45 ถนนมิตรภาพ แขวง/ตำบล ในเมือง อำเภอเมือง จังหวัดกรุงเทพมหานคร 10110</span>
+                    </div>
+                    <div class="info-item">
+                        <label>เวลาทำการ</label>
+                        <span>จันทร์ - เสาร์ : 08:00 น. - 17:00 น. (หยุดวันอาทิตย์)</span>
+                    </div>
+                    <div class="info-item">
+                        <label>เบอร์โทรศัพท์ติดต่อ</label>
+                        <span>02-123-4567 , 081-234-5678</span>
+                    </div>
+                    <div class="info-item">
+                        <label>อีเมลฝ่ายคลังสินค้า</label>
+                        <span>contact@construction-wh.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // โหลด navbar.html และตั้งค่า active ให้กับเมนู เกี่ยวกับเรา
+        async function loadNavbar() {
+            try {
+                const res = await fetch('navbar.html');
+                const html = await res.text();
+                document.getElementById('navbar-container').innerHTML = html;
+
+                // กำหนดคลาส active ให้เมนูเกี่ยวกับเรา
+                const activeNav = document.getElementById('nav-about');
+                if (activeNav) activeNav.classList.add('active');
+            } catch (err) {
+                console.error('ไม่สามารถโหลด navbar.html ได้:', err);
+            }
+        }
+        loadNavbar();
+
+        // ตรวจสอบการ Login
+        async function checkAuth() {
+            try {
+                const res = await fetch('/api/me', { credentials: 'include' });
+                const data = await res.json();
+                if (!data.loggedIn) window.location.href = '/login';
+            } catch (err) {
+                console.error('Auth error:', err);
+            }
+        }
+        checkAuth();
+
+        // ฟังก์ชัน Logout สำหรับปุ่มใน Navbar
+        async function logout() {
+            await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+
+</html>

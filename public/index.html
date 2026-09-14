@@ -37,6 +37,12 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Container สำหรับ Navbar */
+        #navbar-container {
+            display: flex;
+            flex-shrink: 0;
+        }
+
         /* Sidebar ฝั่งซ้าย */
         .sidebar {
             width: 260px;
@@ -151,7 +157,7 @@
             color: #fca5a5;
         }
 
-        /* [ปรับปรุง] พื้นที่เนื้อหาหลัก - ขยายกว้างเต็มหน้าจอ */
+        /* พื้นที่เนื้อหาหลัก - ขยายกว้างเต็มหน้าจอ */
         .main-content {
             flex: 1;
             padding: 28px 36px 60px;
@@ -520,6 +526,10 @@
                 flex-direction: column;
             }
 
+            #navbar-container {
+                width: 100%;
+            }
+
             .sidebar {
                 width: 100%;
                 height: auto;
@@ -579,60 +589,8 @@
 </head>
 
 <body>
-    <!-- Sidebar ฝั่งซ้ายมือ -->
-    <aside class="sidebar">
-        <div>
-            <div class="sidebar-brand">
-                <div class="mark">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                        </path>
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                    </svg>
-                </div>
-                <div>
-                    <h1>TAFU WATSADU</h1>
-                    <p>คลังวัสดุก่อสร้าง</p>
-                </div>
-            </div>
-
-            <nav class="sidebar-menu">
-                <a href="/dashboard" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="7" height="9"></rect>
-                        <rect x="14" y="3" width="7" height="5"></rect>
-                        <rect x="14" y="12" width="7" height="9"></rect>
-                        <rect x="3" y="16" width="7" height="5"></rect>
-                    </svg>
-                    Dashboard
-                </a>
-                <a href="/" class="nav-item active">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                    </svg>
-                    จัดการสินค้า
-                </a>
-            </nav>
-        </div>
-
-        <div class="sidebar-footer">
-            <button class="btn-logout" onclick="logout()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-                ออกจากระบบ
-            </button>
-        </div>
-    </aside>
-
+    <!-- โหลด Navbar มาใส่ที่นี่ -->
+    <div id="navbar-container"></div>
     <!-- พื้นที่เนื้อหาหลัก (Full Width) -->
     <main class="main-content">
         <div class="panel">
@@ -743,15 +701,30 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:3000/api/products'
-        let allProducts = []
+        // โหลด navbar.html และตั้งค่า active ให้กับเมนู จัดการสินค้า
+        async function loadNavbar() {
+            try {
+                const res = await fetch('navbar.html');
+                const html = await res.text();
+                document.getElementById('navbar-container').innerHTML = html;
+
+                const activeNav = document.getElementById('nav-products');
+                if (activeNav) activeNav.classList.add('active');
+            } catch (err) {
+                console.error('ไม่สามารถโหลด navbar.html ได้:', err);
+            }
+        }
+        loadNavbar();
+
+        const API_URL = 'http://localhost:3000/api/products';
+        let allProducts = [];
 
         function renderProducts(data) {
-            const tbody = document.getElementById('productList')
-            tbody.innerHTML = ''
+            const tbody = document.getElementById('productList');
+            tbody.innerHTML = '';
             if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="empty">ยังไม่มีข้อมูลสินค้าในระบบ</td></tr>`
-                return
+                tbody.innerHTML = `<tr><td colspan="8" class="empty">ยังไม่มีข้อมูลสินค้าในระบบ</td></tr>`;
+                return;
             }
             data.forEach(p => {
                 tbody.innerHTML += `
@@ -769,51 +742,51 @@
               <button class="btn-del" onclick="deleteProduct(${p.id})">ลบ</button>
             </div>
           </td>
-        </tr>`
-            })
+        </tr>`;
+            });
         }
 
         async function loadProducts() {
-            const res = await fetch(API_URL, { credentials: 'include' })
-            const data = await res.json()
-            allProducts = data
-            renderProducts(data)
+            const res = await fetch(API_URL, { credentials: 'include' });
+            const data = await res.json();
+            allProducts = data;
+            renderProducts(data);
         }
 
         async function searchProducts() {
-            const keyword = document.getElementById('searchInput').value.trim()
-            if (!keyword) { loadProducts(); return }
-            const res = await fetch(`${API_URL}/search?q=${encodeURIComponent(keyword)}`)
-            const data = await res.json()
-            allProducts = data
-            renderProducts(data)
+            const keyword = document.getElementById('searchInput').value.trim();
+            if (!keyword) { loadProducts(); return; }
+            const res = await fetch(`${API_URL}/search?q=${encodeURIComponent(keyword)}`);
+            const data = await res.json();
+            allProducts = data;
+            renderProducts(data);
         }
 
         async function checkAuth() {
-            const res = await fetch('/api/me', { credentials: 'include' })
-            const data = await res.json()
-            if (!data.loggedIn) window.location.href = '/login'
+            const res = await fetch('/api/me', { credentials: 'include' });
+            const data = await res.json();
+            if (!data.loggedIn) window.location.href = '/login';
         }
-        checkAuth()
+        checkAuth();
 
         async function logout() {
-            await fetch('/api/logout', { method: 'POST', credentials: 'include' })
-            window.location.href = '/login'
+            await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+            window.location.href = '/login';
         }
 
         function clearSearch() {
-            document.getElementById('searchInput').value = ''
-            loadProducts()
+            document.getElementById('searchInput').value = '';
+            loadProducts();
         }
 
-        let debounceTimer
+        let debounceTimer;
         document.getElementById('searchInput').addEventListener('input', () => {
-            clearTimeout(debounceTimer)
-            debounceTimer = setTimeout(searchProducts, 300)
-        })
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(searchProducts, 300);
+        });
 
         document.getElementById('productForm').addEventListener('submit', async (e) => {
-            e.preventDefault()
+            e.preventDefault();
             const body = {
                 code: document.getElementById('code').value,
                 name: document.getElementById('name').value,
@@ -822,52 +795,52 @@
                 sell_price: document.getElementById('sell_price').value,
                 quantity: document.getElementById('quantity').value,
                 unit: document.getElementById('unit').value
-            }
+            };
             await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
-            })
-            e.target.reset()
-            loadProducts()
-        })
+            });
+            e.target.reset();
+            loadProducts();
+        });
 
         async function deleteProduct(id) {
-            if (!confirm('ยืนยันการลบสินค้านี้?')) return
-            const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' })
-            const data = await res.json()
+            if (!confirm('ยืนยันการลบสินค้านี้?')) return;
+            const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            const data = await res.json();
             if (data.success) {
-                loadProducts()
+                loadProducts();
             } else {
-                alert('ลบไม่สำเร็จ กรุณาลองใหม่')
+                alert('ลบไม่สำเร็จ กรุณาลองใหม่');
             }
         }
 
         function openEditModal(id) {
-            const p = allProducts.find(item => item.id === id)
-            if (!p) return
-            document.getElementById('edit_id').value = p.id
-            document.getElementById('edit_code').value = p.code
-            document.getElementById('edit_name').value = p.name
-            document.getElementById('edit_category').value = p.category
-            document.getElementById('edit_cost_price').value = p.cost_price
-            document.getElementById('edit_sell_price').value = p.sell_price
-            document.getElementById('edit_quantity').value = p.quantity
-            document.getElementById('edit_unit').value = p.unit
-            document.getElementById('editModal').classList.add('show')
+            const p = allProducts.find(item => item.id === id);
+            if (!p) return;
+            document.getElementById('edit_id').value = p.id;
+            document.getElementById('edit_code').value = p.code;
+            document.getElementById('edit_name').value = p.name;
+            document.getElementById('edit_category').value = p.category;
+            document.getElementById('edit_cost_price').value = p.cost_price;
+            document.getElementById('edit_sell_price').value = p.sell_price;
+            document.getElementById('edit_quantity').value = p.quantity;
+            document.getElementById('edit_unit').value = p.unit;
+            document.getElementById('editModal').classList.add('show');
         }
 
         function closeEditModal() {
-            document.getElementById('editModal').classList.remove('show')
+            document.getElementById('editModal').classList.remove('show');
         }
 
         document.getElementById('editModal').addEventListener('click', (e) => {
-            if (e.target.id === 'editModal') closeEditModal()
-        })
+            if (e.target.id === 'editModal') closeEditModal();
+        });
 
         document.getElementById('editForm').addEventListener('submit', async (e) => {
-            e.preventDefault()
-            const id = document.getElementById('edit_id').value
+            e.preventDefault();
+            const id = document.getElementById('edit_id').value;
             const body = {
                 code: document.getElementById('edit_code').value,
                 name: document.getElementById('edit_name').value,
@@ -876,22 +849,22 @@
                 sell_price: document.getElementById('edit_sell_price').value,
                 quantity: document.getElementById('edit_quantity').value,
                 unit: document.getElementById('edit_unit').value
-            }
+            };
             const res = await fetch(`${API_URL}/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
-            })
-            const data = await res.json()
+            });
+            const data = await res.json();
             if (data.success) {
-                closeEditModal()
-                loadProducts()
+                closeEditModal();
+                loadProducts();
             } else {
-                alert('บันทึกไม่สำเร็จ กรุณาลองใหม่')
+                alert('บันทึกไม่สำเร็จ กรุณาลองใหม่');
             }
-        })
+        });
 
-        loadProducts()
+        loadProducts();
     </script>
 </body>
 
