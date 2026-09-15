@@ -17,21 +17,58 @@
             </div>
         </div>
 
-        <nav class="sidebar-nav">
+        <nav class="sidebar-menu">
+            <!-- จัดการสินค้า: Icon กล่องสินค้า -->
             <a href="/" class="nav-item" id="nav-products">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-package">
+                    <path
+                        d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" />
+                    <path d="M12 22V12" />
+                    <polyline points="3.29 7 12 12 20.71 7" />
+                    <path d="m7.5 4.27 9 5.15" />
                 </svg>
                 จัดการสินค้า
             </a>
+
+            <!-- เกี่ยวกับเรา: Icon ข้อมูล (Info) -->
             <a href="/about" class="nav-item" id="nav-about">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-user">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
                 </svg>
                 เกี่ยวกับเรา
+            </a>
+
+            <!-- ประวัติเบิกสินค้า: Icon ประวัติ/นาฬิกาย้อนหลัง -->
+            <a href="/history" class="nav-item" id="nav-history">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-clock">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                ประวัติเบิกสินค้า
+            </a>
+
+            <!-- รายการเบิกสินค้า: Icon ทำรายการนำสินค้าออก (Withdraw) -->
+            <a href="/withdraw" class="nav-item" id="nav-withdraw">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-package-minus">
+                    <path d="M12 22V12" />
+                    <path d="M16 17h6" />
+                    <path
+                        d="M21 13V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.729l7 4a2 2 0 0 0 2 .001l1.675-.955" />
+                    <path d="M3.29 7 12 12l8.71-5" />
+                    <path d="m7.5 4.27 8.997 5.148" />
+                </svg>
+                รายการเบิกสินค้า
             </a>
         </nav>
     </div>

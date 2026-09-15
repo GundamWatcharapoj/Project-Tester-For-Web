@@ -69,6 +69,24 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'))
 })
 
+// หน้าเกี่ยวกับเรา ต้องล็อกอินก่อนถึงจะเข้าได้
+app.get('/about', (req, res) => {
+  if (!req.session.userId) return res.redirect('/login')
+  res.sendFile(path.join(__dirname, '../public/about.html'))
+})
+
+// หน้าเบิกสินค้า ต้องล็อกอินก่อนถึงจะเข้าได้
+app.get('/withdraw', (req, res) => {
+  if (!req.session.userId) return res.redirect('/login')
+  res.sendFile(path.join(__dirname, '../public/withdraw.html'))
+})
+
+// หน้าประวัติเบิก ต้องล็อกอินก่อนถึงจะเข้าได้
+app.get('/history', (req, res) => {
+  if (!req.session.userId) return res.redirect('/login')
+  res.sendFile(path.join(__dirname, '../public/history.html'))
+})
+
 // ---- Product API (ต้องล็อกอินก่อนถึงจะใช้ได้) ----
 app.get('/api/products', requireLogin, (req, res) => {
   db.query('SELECT * FROM products ORDER BY id DESC', (err, results) => {
@@ -123,10 +141,51 @@ app.delete('/api/products/:id', requireLogin, (req, res) => {
   })
 })
 
-// หน้าเกี่ยวกับเรา ต้องล็อกอินก่อนถึงจะเข้าได้
-app.get('/about', (req, res) => {
-  if (!req.session.userId) return res.redirect('/login')
-  res.sendFile(path.join(__dirname, '../public/about.html'))
+// ---- Stock Withdraw API ----
+
+// เบิกสินค้า
+app.post('/api/stock/withdraw', requireLogin, (req, res) => {
+  const { product_id, quantity, note } = req.body
+  const qty = Number(quantity)
+
+  if (!product_id || !qty || qty <= 0) {
+    return res.status(400).json({ success: false, message: 'กรุณากรอกข้อมูลให้ถูกต้อง' })
+  }
+
+  db.query('SELECT * FROM products WHERE id = ?', [product_id], (err, results) => {
+    if (err) return res.status(500).json(err)
+    if (results.length === 0) return res.status(404).json({ success: false, message: 'ไม่พบสินค้านี้' })
+
+    const product = results[0]
+    if (product.quantity < qty) {
+      return res.status(400).json({ success: false, message: `สต๊อกไม่พอ (คงเหลือ ${product.quantity} ${product.unit})` })
+    }
+
+    db.query('UPDATE products SET quantity = quantity - ? WHERE id = ?', [qty, product_id], (err2) => {
+      if (err2) return res.status(500).json(err2)
+
+      const sql = 'INSERT INTO stock_transactions (product_id, quantity, note, withdrawn_by) VALUES (?, ?, ?, ?)'
+      db.query(sql, [product_id, qty, note || null, req.session.username], (err3) => {
+        if (err3) return res.status(500).json(err3)
+        res.json({ success: true, message: 'เบิกสินค้าสำเร็จ' })
+      })
+    })
+  })
+})
+
+// ประวัติการเบิกสินค้า
+app.get('/api/stock/history', requireLogin, (req, res) => {
+  const sql = `
+    SELECT st.id, st.quantity, st.note, st.withdrawn_by, st.created_at,
+           p.code, p.name, p.unit
+    FROM stock_transactions st
+    JOIN products p ON st.product_id = p.id
+    ORDER BY st.created_at DESC
+  `
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json(err)
+    res.json(results)
+  })
 })
 
 app.listen(3000, () => {
