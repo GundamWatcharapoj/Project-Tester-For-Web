@@ -12,4 +12,4 @@ in the Robot Framework repository.
 
 ## Related Project
 
-- [Project-Tester-For-Web - Robot Framework](https://github.com/GundamWatcharapoj/Project-Tester-For-Web)
+- Go to Robot Framework -> [Project-Tester-Robot-Framework]([https://github.com/GundamWatcharapoj/Project-Tester-For-Web](https://github.com/GundamWatcharapoj/Project-Tester-Robot-Framework))
